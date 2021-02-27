@@ -53,6 +53,11 @@ const testData = [
 ];
 
 Meteor.startup(() => {
+  if (Meteor.isServer) {
+    Meteor.publish('tasks', function task() {
+      return Tasks.find({});
+    });
+  }
   // If the Links collection is empty, add some data.
   if (Tasks.find().count() === 0) {
     testData.forEach(task => Tasks.insert(task));
